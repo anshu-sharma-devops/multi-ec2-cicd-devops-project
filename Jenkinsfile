@@ -3,9 +3,9 @@ pipeline {
 
     stages {
 
-        stage('Git Checkout') {
+        stage('Checkout') {
             steps {
-                git 'https://github.com/anshu-sharma-devops/multi-ec2-cicd-devops-project.git'
+                checkout scm
             }
         }
 
@@ -15,7 +15,7 @@ pipeline {
             }
         }
 
-        stage('Verify Image') {
+        stage('List Images') {
             steps {
                 sh 'docker images'
             }
