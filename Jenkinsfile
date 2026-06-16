@@ -1,62 +1,23 @@
 pipeline {
     agent any
 
-    environment {
-        // We removed the AWS keys because the EC2 IAM Role handles it automatically!
-        ANSIBLE_SSH_KEY = credentials('ssh-private-key') 
-    }
-
     stages {
-        stage('Stage 1 - Git Clone') {
+
+        stage('Git Checkout') {
             steps {
-                echo 'Cloning repository...'
-                checkout scm
+                git 'https://github.com/anshu-sharma-devops/multi-ec2-cicd-devops-project.git'
             }
         }
 
-        stage('Stage 2 - Terraform Init') {
+        stage('Build Docker Image') {
             steps {
-                dir('terraform') {
-                    echo 'Initializing Terraform...'
-                    sh 'terraform init'
-                }
+                sh 'docker build -t devops-web:latest ./docker'
             }
         }
 
-        stage('Stage 3 - Terraform Apply') {
+        stage('Verify Image') {
             steps {
-                dir('terraform') {
-                    echo 'Creating Infrastructure...'
-                    sh 'terraform apply -auto-approve'
-                    // Hand off the new app server IP to Ansible
-                    sh 'terraform output -raw app_server_ip > ../ansible/app_ip.txt'
-                }
-            }
-        }
-
-        stage('Stage 4 - Ansible Deployment') {
-            steps {
-                dir('ansible') {
-                    echo 'Configuring App Server with Ansible...'
-                    sh 'ansible-playbook -i inventory install-docker.yml --private-key=${ANSIBLE_SSH_KEY}'
-                }
-            }
-        }
-
-        stage('Stage 5 - Docker Build') {
-            steps {
-                dir('docker') {
-                    echo 'Building Nginx Docker Image...'
-                    sh 'docker build -t my-nginx-website:latest .'
-                }
-            }
-        }
-
-        stage('Stage 6 - Docker Run') {
-            steps {
-                echo 'Deploying Docker Container...'
-                // Deployment execution command goes here
-                echo 'Deployment successful!'
+                sh 'docker images'
             }
         }
     }
