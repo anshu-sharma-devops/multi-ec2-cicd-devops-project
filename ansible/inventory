@@ -1,5 +1,5 @@
 [app]
-43.204.231.252 ansible_user=ubuntu ansible_ssh_private_key_file=/Users/anshusharma/Downloads/jenkins-key.pem
+65.0.199.227 ansible_user=ubuntu ansible_ssh_private_key_file=/Users/anshusharma/Downloads/jenkins-key.pem
 
 [jenkins]
-13.203.230.65 ansible_user=ubuntu ansible_ssh_private_key_file=/Users/anshusharma/Downloads/jenkins-key.pem
+13.203.210.193 ansible_user=ubuntu ansible_ssh_private_key_file=/Users/anshusharma/Downloads/jenkins-key.pem
