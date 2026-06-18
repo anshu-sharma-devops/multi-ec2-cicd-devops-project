@@ -1,13 +1,6 @@
-# Local .terraform directories
-**/.terraform/*
-
-# .tfstate files
+.terraform/
 *.tfstate
 *.tfstate.*
-
-# Crash logs
-crash.log
-
-# Sensitive variables
-*.tfvars
-*.tfvars.json
+.terraform.lock.hcl
+*.pem
+.DS_Stor

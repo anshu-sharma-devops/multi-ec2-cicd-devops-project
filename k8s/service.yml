@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: devops-web-service
+
+spec:
+  selector:
+    app: devops-web
+
+  ports:
+  - port: 80
+    targetPort: 80
+
+  type: NodePort
