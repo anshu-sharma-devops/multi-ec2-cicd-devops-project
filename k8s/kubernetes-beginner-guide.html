@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kubernetes Beginner Guide | Anshu DevOps Project</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      line-height: 1.6;
+    }
+    header {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+    }
+    header h1 {
+      font-size: 44px;
+      margin: 0;
+      color: #38bdf8;
+    }
+    header p {
+      font-size: 18px;
+      color: #cbd5e1;
+      max-width: 850px;
+      margin: 16px auto 0;
+    }
+    .container {
+      width: 92%;
+      max-width: 1100px;
+      margin: auto;
+      padding: 40px 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 0 25px rgba(56,189,248,0.08);
+    }
+    .card h2, .card h3 {
+      color: #38bdf8;
+      margin-top: 0;
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #1e293b;
+      color: #93c5fd;
+      margin: 5px;
+      font-size: 13px;
+      border: 1px solid #334155;
+    }
+    pre {
+      background: #020617;
+      border: 1px solid #334155;
+      padding: 18px;
+      border-radius: 12px;
+      overflow-x: auto;
+      color: #a7f3d0;
+    }
+    .flow {
+      text-align: center;
+      font-size: 18px;
+      color: #facc15;
+      font-weight: bold;
+      padding: 20px;
+    }
+    .section-title {
+      font-size: 30px;
+      color: #f8fafc;
+      border-left: 5px solid #38bdf8;
+      padding-left: 14px;
+      margin-top: 50px;
+    }
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #94a3b8;
+      background: #020617;
+      border-top: 1px solid #334155;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>☸ Kubernetes Beginner Guide</h1>
+  <p>
+    A simple visual guide created as part of the Multi-EC2 CI/CD DevOps Project.
+    This page explains Kubernetes from scratch using the same project workflow:
+    Docker → ECR → Kubernetes → Service → Website.
+  </p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>🚀 Why Kubernetes?</h2>
+    <p>
+      When applications run inside containers, managing one container is easy.
+      But in real projects, we need multiple containers, automatic restart,
+      scaling, load balancing, and zero-downtime deployment. Kubernetes solves
+      these problems by managing containers automatically.
+    </p>
+  </div>
+
+  <h2 class="section-title">🧠 Core Concepts</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>📦 Container</h3>
+      <p>A container packages the application with everything it needs to run.</p>
+    </div>
+
+    <div class="card">
+      <h3>☸ Pod</h3>
+      <p>The smallest unit in Kubernetes. A pod runs one or more containers.</p>
+    </div>
+
+    <div class="card">
+      <h3>📊 Deployment</h3>
+      <p>Manages replicas of pods and keeps the application running.</p>
+    </div>
+
+    <div class="card">
+      <h3>🌐 Service</h3>
+      <p>Exposes pods using a stable network endpoint.</p>
+    </div>
+
+    <div class="card">
+      <h3>🧩 ReplicaSet</h3>
+      <p>Ensures the desired number of pod replicas are always running.</p>
+    </div>
+
+    <div class="card">
+      <h3>🖥 Node</h3>
+      <p>A machine where Kubernetes runs application workloads.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">🏗 Project Architecture</h2>
+
+  <div class="card flow">
+    GitHub → Jenkins → Docker Build → Amazon ECR → Kubernetes Deployment → Service → Website
+  </div>
+
+  <h2 class="section-title">⚙ What I Implemented</h2>
+
+  <div class="card">
+    <span class="badge">AWS EC2</span>
+    <span class="badge">Terraform</span>
+    <span class="badge">Ansible</span>
+    <span class="badge">Jenkins</span>
+    <span class="badge">Docker</span>
+    <span class="badge">Amazon ECR</span>
+    <span class="badge">Kubernetes</span>
+    <span class="badge">Minikube</span>
+  </div>
+
+  <h2 class="section-title">📄 Kubernetes Deployment YAML</h2>
+
+  <div class="card">
+<pre>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devops-web
+  template:
+    metadata:
+      labels:
+        app: devops-web
+    spec:
+      containers:
+      - name: devops-web
+        image: devops-web:v3
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+</pre>
+  </div>
+
+  <h2 class="section-title">🌐 Kubernetes Service YAML</h2>
+
+  <div class="card">
+<pre>
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-web-service
+spec:
+  selector:
+    app: devops-web
+  ports:
+  - port: 80
+    targetPort: 80
+  type: NodePort
+</pre>
+  </div>
+
+  <h2 class="section-title">🧪 Verification Commands</h2>
+
+  <div class="card">
+<pre>
+kubectl get nodes
+kubectl get pods
+kubectl get deployment
+kubectl get svc
+minikube service devops-web-service --url
+curl $(minikube service devops-web-service --url)
+</pre>
+  </div>
+
+  <h2 class="section-title">🛠 Problems I Faced & Fixed</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>❌ ImagePullBackOff</h3>
+      <p>
+        Kubernetes could not find the local Docker image.
+        I fixed it by building the image inside Minikube's Docker environment
+        and setting <b>imagePullPolicy: Never</b>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>❌ No Space Left on Device</h3>
+      <p>
+        Docker and Minikube filled the root disk.
+        I increased the EBS volume to 20 GB and resized the Linux filesystem.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>❌ Low Memory</h3>
+      <p>
+        t3.micro was not enough for Kubernetes.
+        I upgraded the App Server to a larger instance for Minikube practice.
+      </p>
+    </div>
+  </div>
+
+  <h2 class="section-title">🎯 Final Result</h2>
+
+  <div class="card">
+    <p>
+      The Dockerized DevOps website was successfully deployed inside Kubernetes
+      using Minikube. The application runs through Kubernetes Deployment and is
+      exposed using a NodePort Service.
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  Built by Anshu Sharma | Multi-EC2 CI/CD DevOps Platform | 2026
+</footer>
+
+</body>
+</html>
